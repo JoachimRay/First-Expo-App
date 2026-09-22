@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -22,12 +22,14 @@ const styles = StyleSheet.create({
         height: 90,
         justifyContent: 'center',
         paddingHorizontal: 16,
-        backgroundColor: '#f8f8f8',
+            backgroundColor: '#0b0f14',
+            borderBottomWidth: 1,
+            borderBottomColor: '#26313d',
     },
 
     label:{
         fontSize: 20,
         fontWeight: 'bold',
-        color: 'black',
+        color: '#ffffff',
     },
 });

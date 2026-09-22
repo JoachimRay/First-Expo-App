@@ -1,6 +1,37 @@
-export const SEED = [
-    {id: 'c1', name: 'John Doe',balance: 1000, lastPaid: "January 9"},
-    {id: 'c2', name: 'Jane Smith',balance: 2000, lastPaid: "February 15"},
-    {id: 'c3', name: 'Alice Johnson',balance: 1500, lastPaid: "March 20"},
-    {id: 'c4', name: 'Bob Williams',balance: 3000, lastPaid: "April 10"},
-]
+export type Customer = {
+id: string;
+name: string;
+balance: number;
+lastPaid: string;
+};
+const BASE = process.env.EXPO_PUBLIC_API_URL?.trim();
+
+function timeout(ms: number): Promise<never> {
+return new Promise((_, fail) =>
+setTimeout(() => fail(new Error("timeout")), ms)
+);
+}
+async function get(path: string) {
+if (!BASE) throw new Error("Set EXPO_PUBLIC_API_URL in .env");
+const res = await Promise.race([fetch(BASE + path), timeout(8000)]);
+if (!res.ok) throw new Error(String(res.status));
+return res.json();
+
+}
+export const fetchCustomers = (): Promise<Customer[]> => get("/api/customers");
+export const fetchCustomer = (id: string): Promise<Customer> =>
+get(`/api/customers/${encodeURIComponent(id)}`);
+
+export async function addCustomer(name: string, balance: number): Promise<Customer> {
+if (!BASE) throw new Error("Set EXPO_PUBLIC_API_URL in .env");
+const res = await Promise.race([
+fetch(BASE + "/api/customers", {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({ name, balance }),
+}),
+timeout(8000),
+]);
+if (!res.ok) throw new Error(String(res.status));
+return res.json();
+}

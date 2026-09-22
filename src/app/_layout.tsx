@@ -1,11 +1,9 @@
-import {DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import { DefaultTheme, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Navigation from '../components/navbar';
 import { useEffect } from 'react';
-import { Colors, ThemeColor } from '../constants/theme';
+import { useColorScheme, View } from 'react-native';
 import BottomTab from '../components/app-tabs';
+import Navigation from '../components/navbar';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -14,8 +12,11 @@ const AppTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: Colors.light.background,
-    text: Colors.light.text,
+    background: '#000000',
+    text: '#ffffff',
+    card: '#0b0f14',
+    border: '#26313d',
+    primary: '#62e6ff',
   },
 };
 
@@ -26,7 +27,7 @@ export default function TabLayout() {
   const theme = colorScheme === 'dark' ? 'dark' : 'light';
 
   return (
- <View style={{ flex: 1}}>
+ <View style={{ flex: 1, backgroundColor: '#000000' }}>
     <ThemeProvider value={AppTheme}>
    
       <Navigation title="Customers" />
